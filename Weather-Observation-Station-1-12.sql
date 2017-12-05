@@ -28,13 +28,68 @@ WHERE LENGTH(CITY) = (SELECT MIN(LENGTH(CITY)) FROM STATION)
 ORDER BY CITY ) 
 WHERE ROWNUM <= 1 ;
 #6
-SELECT DISTINCT(CITY)
-FROM STATION
-WHERE CITY Like 'A%' OR  CITY LIKE 'E%' OR CITY LIKE 'I%' OR CITY LIKE 'O%' OR CITY LIKE 'U%';
+SELECT distinct CITY 
+FROM STATION 
+where (CITY LIKE 'a%' 
+    OR CITY LIKE 'e%' 
+    OR CITY LIKE 'i%' 
+    OR CITY LIKE 'o%'
+    OR CITY LIKE 'u%'
+)
 #7
-#8
-#9
-#10
-#11
-#12
+SELECT distinct CITY 
+FROM STATION 
+where (CITY LIKE '%a' 
+    OR CITY LIKE '%e'
+    OR CITY LIKE '%i'
+    OR CITY LIKE '%o'
+    OR CITY LIKE '%u'
+)
 
+#8
+SELECT distinct CITY 
+FROM STATION 
+where (CITY LIKE 'a%' 
+    OR CITY LIKE 'e%' 
+    OR CITY LIKE 'i%' 
+    OR CITY LIKE 'o%'
+    OR CITY LIKE 'u%'
+) AND (CITY LIKE '%a' 
+    OR CITY LIKE '%e'
+    OR CITY LIKE '%i'
+    OR CITY LIKE '%o'
+    OR CITY LIKE '%u'
+)
+#9
+SELECT distinct CITY 
+FROM STATION 
+where(CITY NOT IN (SELECT CITY FROM STATION WHERE (CITY LIKE 'a%' 
+    OR CITY LIKE 'e%' 
+    OR CITY LIKE 'i%' 
+    OR CITY LIKE 'o%'
+    OR CITY LIKE 'u%'
+)));
+#^That is terrible code and mamma needs to learn her some regex 
+#10
+SELECT distinct CITY 
+FROM STATION 
+where(CITY NOT IN (SELECT CITY FROM STATION WHERE (CITY LIKE '%a' 
+    OR CITY LIKE '%e'
+    OR CITY LIKE '%i'
+    OR CITY LIKE '%o'
+    OR CITY LIKE '%u'
+)));
+#11
+SELECT DISTINCT CITY
+FROM STATION
+WHERE (NOT(CITY  Like 'A%' OR CITY LIKE 'E%' OR CITY LIKE 'O%' OR CITY LIKE 'I%' OR CITY LIKE 'U%'))
+		OR 
+	  (NOT (CITY LIKE '%a' OR CITY  LIKE '%e' OR CITY LIKE '%i' OR CITY LIKE '%o' OR CITY LIKE '%u'))
+ORDER BY CITY;
+#12
+SELECT DISTINCT CITY
+FROM STATION
+WHERE (NOT(CITY  Like 'A%' OR CITY LIKE 'E%' OR CITY LIKE 'O%' OR CITY LIKE 'I%' OR CITY LIKE 'U%'))
+		AND
+	  (NOT (CITY LIKE '%a' OR CITY  LIKE '%e' OR CITY LIKE '%i' OR CITY LIKE '%o' OR CITY LIKE '%u'))
+ORDER BY CITY;
